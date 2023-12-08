@@ -143,6 +143,7 @@ def accelerate_train(accelerator, model, train_dataloader, valid_dataloader, opt
             tail_num = len(active_dataloader) - len(active_dataloader) % args.gradient_accumulation_steps
             print(f"length of dataloader: {len(active_dataloader)}")
             for step, batch in enumerate(active_dataloader):
+                torch.cuda.empty_cache()
                 if step == tail_num:
                     break
                 with accelerator.accumulate(model):
